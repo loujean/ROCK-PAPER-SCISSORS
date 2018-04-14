@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissors</title>
+        <meta charset="UTF-8">
+        
+        <!-- A viewport is essentially the user's screen, device width and initial 
+        scale means don't zoom in or out in any special way just use regular zoom 100% and make sure
+        it's consistent across every device however mine does not appear to work that well haha -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- and these are jquery libary and javascript file -->
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+       
+        <!-- link to default styling -->
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    </head>
+    
+    <body style="background-color: #D6FBF8" align="Center">
+	<!-- I want my page to span right across the entire page so used class container-fluid -->
+        <div class="container-fluid">
+	
+            <div id="userChoice" class="heading">
+            
+                <h1>WELCOME TO ROCK, PAPER, SCISSORS <br></br>
+                    Click on an object to start the game</h1>
+        <!-- here I am using the grid system in bootstrap
+       this row is taking up the width of max 12 columns by making each col span over 4 col.
+       and I have turned my images into bootstrap buttons-->
+                <div class="row">
+          <div class="col-sm-4">
+        <div class="Rbutton btn btn-sm">
+        <img src="images/ROCK.png" class="userChoice"  id="R" title="Rock" />
+            </div>
+          </div>
+            <div class="col-sm-4">
+        <div class="Pbutton btn btn-sm">
+        <img src="images/PAPER.png" class="userChoice"  id="P" title="Paper" />
+            </div>
+          </div>
+            <div class="col-sm-4">
+        <div class="Sbutton btn btn-sm">
+        <img src="images/SCISSORS.png" class="userChoice" id="S" title="Scissors" /> 
+            </div>
+            </div>
+             
+        <!-- Created a panel for the results to be returned -->        
+        <div class="panel" style="clear:both;">
+            <div class="panel-heading h1">
+                <div id="results">
+                </div>
+            </div>
+        </div>
+     </div>
+<!-- I have placed the script here so that the rest of the page gets parsed 
+before the script is loaded -->
+    <script>
+    
+    
+    function Play()
+    //reloads the page
+    { 
+	location.reload();
+        }
+    // Here I have used a jquery which is the equivalent to document.getElementById("") 
+    
+    //jquery by class for user clicks
+    
+        $(".userChoice").on("click",function() 
+    
+    {
+    /*When a user clicks on a button it looks for the attribute assigned to id which are above
+             id="P" /  id="P"  /  id="S" */
+    
+        var name=$(this).attr("id");
+        
+        runGame(name);
+        });
+        
+     /**
+     
+     * This function makes an ajax request which is jquery method of XMLHttpRequest 
+     *
+     */
+    function runGame(value)
+                
+    {
+        $.ajax({
+         
+        url: "GameFunctions.php",
+        //Submits data to be processed to GameFunctions.php 
+        type: "post",
+        //This determines the choice value from GameFunctions 
+        data: {"choice":value},
+        //built in function to check the value is true
+        success: function(data) {
+           
+        //HTML 5 data is pulled into jQuery's data object panel
+               
+        $("#results").html(data);
+                         
+                }
+              }); 
+        }
+	
+</script>
+    </body>
+</html>
+
